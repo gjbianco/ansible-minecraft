@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   config.vm.hostname = "mcserver"
 
-	config.vm.provision "ansible" do |ansible|
+  config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
   end
 
