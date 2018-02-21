@@ -1,0 +1,11 @@
+[Unit]
+Description=Minecraft Java server
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/run_mcserver.sh
+WorkingDirectory=/home/vagrant
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    mc_version: 1.12.2
+  tasks:
+    - name: 'install java'
+      yum: name={{ item }} state=present
+      with_items:
+        - java-1.8.0-openjdk
+    - name: 'download minecraft server jar'
+      get_url:
+        url: https://s3.amazonaws.com/Minecraft.Download/versions/{{ mc_version }}/minecraft_server.{{ mc_version }}.jar
+        dest: /usr/local/bin/minecraft_server.jar
+    - name: 'copy server shellscript'
+      copy:
+        src:  assets/run_mcserver.sh
+        dest: /usr/local/sbin/
+        mode: 0775
+    - name: 'copy eula'
+      copy:
+        src:  assets/eula.txt
+        dest: /home/vagrant
+        mode: 0664
+    - name: 'copy service'
+      copy:
+        src:  assets/minecraft.service
+        dest: /etc/systemd/system
+        mode: 0666
+    - name: 'minecraft service enabled and running'
+      service: name=minecraft enabled=yes state=restarted
